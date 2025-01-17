@@ -7,7 +7,7 @@ const sliceTodo = createSlice({
     addTodo: (state, action) => {
       state.push({
         id: Date.now(),
-        text: action.text,
+        text: action.payload,
         completed: false,
       });
     },
