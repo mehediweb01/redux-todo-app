@@ -20,6 +20,9 @@ const sliceTodo = createSlice({
     deleteTodo: (state, action) => {
       return state.filter((todo) => todo.id !== action.payload);
     },
+    loadFromStorage: (state, action) => {
+      state.push(action.payload);
+    },
   },
 });
 export const { addTodo, toggleTodo, deleteTodo } = sliceTodo.actions;

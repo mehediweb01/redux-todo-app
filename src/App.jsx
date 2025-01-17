@@ -1,9 +1,9 @@
-import Todo from "./components/Todo";
+import TodoApp from "./components/Todo";
 
 const App = () => {
   return (
     <>
-      <Todo />
+      <TodoApp />
     </>
   );
 };

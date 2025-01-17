@@ -1,11 +1,29 @@
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, toggleTodo, deleteTodo } from "../redux/todoSlice";
-import { useState } from "react";
-const Todo = () => {
+const TodoApp = () => {
   const [text, setText] = useState("");
   const [edit, setEdit] = useState(null);
-  const todo = useSelector((state) => state.todos);
+  const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
+  // Load todos from localStorage on app load
+  useEffect(() => {
+    const SavedTodos = localStorage.getItem("todos") || [];
+    const todosItem = JSON.parse(SavedTodos)
+    if (todosItem.length > 0) {
+      todosItem.forEach((todo) => {
+        dispatch({
+          type: "todos/loadFromStorage",
+          payload: todo,
+        });
+      });
+    }
+  }, [dispatch]);
+
+  // Save todos to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const AddedTodo = () => {
     if (text.trim()) {
@@ -42,7 +60,7 @@ const Todo = () => {
           </button>
         </div>
         <ul className="w-full mx-auto mt-8">
-          {todo.map((todoList) => (
+          {todos.map((todoList) => (
             <li
               key={todoList.id}
               className="flex justify-between gap-8 bg-sky-600/50 py-2 px-4 text-white shadow shadow-white rounded-md"
@@ -88,4 +106,4 @@ const Todo = () => {
   );
 };
 
-export default Todo;
+export default TodoApp;
